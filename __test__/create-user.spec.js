@@ -35,6 +35,32 @@ describe("create user", () => {
       .send(user)
       .then((res) => {
         expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toEqual("Fields cannot be empty");
+      })
+      .catch((error) => {
+        fail(error);
+      });
+  });
+  it("Shouldn't create an new user with duplicated email", () => {
+    const user = {
+      name: `victor-${randomUUID()}`,
+      email: `${Date.now()}@gmail.com`,
+      password: "12345",
+    };
+
+    return server
+      .post("/user")
+      .send(user)
+      .then((res) => {
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.email).toEqual(user.email);
+        return server
+          .post("/user")
+          .send(user)
+          .then((res) => {
+            expect(res.statusCode).toEqual(400);
+            expect(res.body.error).toEqual("Invalid email");
+          });
       })
       .catch((error) => {
         fail(error);
