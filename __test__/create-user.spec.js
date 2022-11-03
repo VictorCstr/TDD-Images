@@ -25,8 +25,8 @@ describe("create user", () => {
   });
   it("Shouldn't create an new user with empty fields", () => {
     const user = {
-      name: ``,
-      email: ``,
+      name: "",
+      email: "",
       password: "",
     };
 
