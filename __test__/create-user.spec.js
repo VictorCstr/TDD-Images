@@ -8,7 +8,7 @@ describe("create user", () => {
   it("Should create an new user", () => {
     const user = {
       name: `victor-${randomUUID()}`,
-      email: `${Date.now}@gmail.com`,
+      email: `${Date.now()}@gmail.com`,
       password: "12345",
     };
 
@@ -17,7 +17,7 @@ describe("create user", () => {
       .send(user)
       .then((res) => {
         expect(res.statusCode).toEqual(200);
-        expect(req.body.email).toEqual(user.email);
+        expect(res.body.email).toEqual(user.email);
       })
       .catch((error) => {
         fail(error);
