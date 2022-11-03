@@ -23,4 +23,21 @@ describe("create user", () => {
         fail(error);
       });
   });
+  it("Shouldn't create an new user with empty fields", () => {
+    const user = {
+      name: ``,
+      email: ``,
+      password: "",
+    };
+
+    return server
+      .post("/user")
+      .send(user)
+      .then((res) => {
+        expect(res.statusCode).toEqual(400);
+      })
+      .catch((error) => {
+        fail(error);
+      });
+  });
 });
