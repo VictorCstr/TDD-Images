@@ -67,23 +67,3 @@ describe("create user", () => {
       });
   });
 });
-
-describe("Testing authentication", () => {
-  it("should return a jwt token when logging in", () => {
-    const user = {
-      email: `victor@teste.com`,
-      password: "12345",
-    };
-
-    return server
-      .post("/auth")
-      .send(user)
-      .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.token).toBeDefined();
-      })
-      .catch((error) => {
-        fail(error);
-      });
-  });
-});

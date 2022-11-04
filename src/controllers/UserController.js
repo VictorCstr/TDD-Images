@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const userController = {
@@ -29,6 +30,22 @@ const userController = {
     } catch (error) {
       console.log(error);
       return res.status(400).json("Error trying to create an User");
+    }
+  },
+  userLogin: async (req, res) => {
+    let { email, password } = req.body;
+    let secret = process.env.JWT_SECRET;
+    try {
+      jwt.sign({ email }, secret, { expiresIn: "1h" }, (err, token) => {
+        if (err) {
+          res.status(500);
+          console.log(err);
+        }
+        return res.json({ token });
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json("Error trying to return JWT");
     }
   },
 };

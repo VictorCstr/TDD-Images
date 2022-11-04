@@ -15,4 +15,6 @@ app.get("/", (req, res) => {
 
 app.post("/user", userController.createUser);
 
+app.post("/auth", userController.userLogin);
+
 module.exports = app;
