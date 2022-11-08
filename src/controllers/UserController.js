@@ -36,6 +36,19 @@ const userController = {
     let { email, password } = req.body;
     let secret = process.env.JWT_SECRET;
     try {
+      let userExist = await User.findOne({ email: req.body.email });
+
+      if (!userExist)
+        return res.status(403).json({ errors: { email: "Incorrect Email" } });
+
+      let validatePassword = await bcrypt.compare(password, userExist.password);
+
+      if (validatePassword == false) {
+        return res
+          .status(403)
+          .json({ errors: { password: "Incorrect Password" } });
+      }
+
       jwt.sign({ email }, secret, { expiresIn: "1h" }, (err, token) => {
         if (err) {
           res.status(500);
